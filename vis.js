@@ -1,7 +1,11 @@
-async function fetchData() {
-  const data = await d3.csv("/datasets/videogames_wide.csv");
+const dataWide ="/datasets/videogames_wide.csv";
+const dataLong ="/datasets/videogames_long.csv";
+
+async function fetchData(dataSource) {
+  const data = await d3.csv(dataSource);
   return data;
 }
+
 
 async function render(viewID, spec) {
   const result = await vegaEmbed(viewID, spec);
@@ -24,7 +28,7 @@ genreColours = [
   "darkmagenta",
 ];
 
-fetchData().then(async (data) => {
+fetchData(dataWide).then(async (data) => {
 
   // ----------- GLOBAL SALES BY GENRE AND PLATFORM --------------
 
@@ -191,6 +195,50 @@ fetchData().then(async (data) => {
   
   render("#view5", regionalSalesVPlatform);
 });
+
+fetchData(dataLong).then(async (data) => {
+
+  // ----------- PS2 GAME SALES BY REGION --------------
+
+  const PS2SalesPerRegion = vl
+    .markLine({ point: 'true' })
+    .data(data)
+      .transform(
+        vl.filter('datum["year"] > 1979 && datum["year"] <= 2016 '),
+        vl.filter('datum["platform"] == "PS2"')
+      )
+    .encode(
+      vl.y().fieldQ('sales_amount').aggregate('sum')
+        .title('Sales Amount for PS2 Games'),
+      vl.x().fieldO('year')
+        .title('Year'),
+      vl.color().fieldN('sales_region')
+        .legend({ title: 'Sales Region' }),
+      vl.tooltip([
+          { field: 'year', 
+            type: 'ordinal', 
+            title: 'Year'
+          },
+          { field: 'platform', 
+            type: 'nominal', 
+            title: 'Platform'
+          },
+          { field: 'sales_amount', 
+            type: 'quantitative', 
+            aggregate: 'sum', 
+            title: 'Sales amount (millions)',
+            format: '$.2f'
+          },
+        ])  
+    )
+    .title('Sales Amount for PS2 per Region')
+    .width("container")
+    .height(400)
+    .toSpec();
+
+  render("#view6", PS2SalesPerRegion);
+});
+
 
 // --- ASSIGNMENT 2 -----------------------------------------------------------
 
