@@ -95,7 +95,7 @@ fetchData(dataWide).then(async (data) => {
 
   // ----------- SALES OVER TIME BY PLATFORM AND GENRE -----------
   const SalesOverTimePlatformGenre = vl
-    .markBar()
+    .markLine( {point: 'true'} )
     .data(data)
     .transform(
       vl.filter('datum["Year"] > 1979 && datum["Year"] <= 2016 ')
@@ -125,6 +125,40 @@ fetchData(dataWide).then(async (data) => {
     .width("container")
     .height(400)
     .toSpec();
+
+  // ----------- WORST SELLING STRATEGY GAMES -----------
+  const test = vl
+    .markPoint()
+    .data(data)
+      .transform(
+        vl.filter('datum["Year"] > 1979 && datum["Year"] <= 2016 '),
+        vl.filter('datum["Genre"] == "Strategy"'),
+        vl.filter('datum["Global_Sales"] < .05')
+      )
+    .encode(
+      vl.y().fieldQ('Global_Sales').aggregate('sum')
+        .axis({ title: "Global Sales (millions)" }),
+      vl.x().fieldN('Name').sort('y').title('Strategy Game Titles')
+      .axis({title:'Strategy Game Names'}),
+      
+      vl.tooltip([
+        { field: 'Name', 
+          type: 'nominal',
+          title: 'Game Name'
+        },
+        { field: 'Global_Sales', 
+          type: 'quantitative', 
+          aggregate: "sum", 
+          title: 'Global Sales (millions)',
+          format: '$.2f'
+        }
+      ])  
+    )
+    .title('Global Sales by Genre and Platform')
+    .width("2000")
+    .height(300)
+    .toSpec();
+
 
   // ----------- REGIONAL SALES VS PLATFORM --------------
   const regionalSalesVPlatform = vl.vconcat(
@@ -224,6 +258,7 @@ fetchData(dataWide).then(async (data) => {
   render("#view1", globalSalesByGenrePlatform);
   render("#view2", globalSalesByGenrePlatformV2);
   render("#view3", SalesOverTimePlatformGenre);
+  render("#view4", test);
   render("#view5", regionalSalesVPlatform);
 });
 
@@ -240,9 +275,9 @@ fetchData(dataLong).then(async (data) => {
       )
     .encode(
       vl.y().fieldQ('sales_amount').aggregate('sum')
-        .title('Sales Amount for PS2 Games'),
+        .axis({ title: 'Sales Amount for PS2 Games' }),
       vl.x().fieldO('year')
-        .title('Year'),
+        .axis({ title: 'Year' }),
       vl.color().fieldN('sales_region')
         .legend({ title: 'Sales Region' }),
       vl.tooltip([
