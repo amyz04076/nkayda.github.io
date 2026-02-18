@@ -37,7 +37,7 @@ fetchData(dataWide).then(async (data) => {
     .data(data)
     .encode(
       vl.y().fieldQ('Global_Sales').aggregate('sum')
-        .axis({ title: "Global Sales (millions)" }),
+        .axis({ title: "Global Sales (millions of units)" }),
       vl.x().fieldO('Platform'),
       vl.color().fieldN('Genre').scale({range: genreColours}),
       vl.tooltip([
@@ -48,8 +48,7 @@ fetchData(dataWide).then(async (data) => {
         { field: 'Global_Sales', 
           type: 'quantitative', 
           aggregate: 'sum', 
-          title: 'Global Sales (millions)',
-          format: '$.2f'
+          title: 'Global Sales (millions of units)',
         }
       ])
     )
@@ -67,7 +66,7 @@ fetchData(dataWide).then(async (data) => {
     )
     .encode(
       vl.y().fieldQ('Global_Sales').aggregate('sum')
-        .axis({ title: "Global Sales (millions)" }),
+        .axis({ title: "Global Sales (millions of units)" }),
       vl.x().fieldO('Platform').sort("-y"),
       vl.color().fieldN("Name").sort("-y")
         .legend({ title: 'Game Title', symbolLimit: 100, columns: 3, labelLimit: 300, orient: 'bottom' }),
@@ -83,8 +82,7 @@ fetchData(dataWide).then(async (data) => {
         { field: 'Global_Sales', 
           type: 'quantitative', 
           aggregate: 'sum', 
-          title: 'Global Sales (millions)',
-          format: '$.2f'
+          title: 'Global Sales (millions of units)',
         }
       ])
     )
@@ -102,7 +100,7 @@ fetchData(dataWide).then(async (data) => {
     )
     .encode(
     vl.y().fieldQ('Global_Sales').aggregate('sum')
-      .title('Global Sales (millions)'),
+      .title('Global Sales (millions of units)'),
     vl.x().fieldO('Year'),
     vl.row().fieldN('Genre'),
     vl.color().fieldN('Platform')
@@ -118,7 +116,7 @@ fetchData(dataWide).then(async (data) => {
         { field: 'Global_Sales', 
           type: 'quantitative', 
           aggregate: "sum", 
-          title: 'Global Sales (millions)',
+          title: 'Global Sales (millions of units)',
         }
       ])  
     )
@@ -137,7 +135,7 @@ fetchData(dataWide).then(async (data) => {
       )
     .encode(
       vl.y().fieldQ('Global_Sales').aggregate('sum')
-        .axis({ title: "Global Sales (millions)" }),
+        .axis({ title: "Global Sales (millions of units)" }),
       vl.x().fieldN('Name').sort('y').title('Strategy Game Titles')
       .axis({title:'Strategy Game Names'}),
       
@@ -149,8 +147,7 @@ fetchData(dataWide).then(async (data) => {
         { field: 'Global_Sales', 
           type: 'quantitative', 
           aggregate: "sum", 
-          title: 'Global Sales (millions)',
-          format: '$.2f'
+          title: 'Global Sales (millions of units)',
         }
       ])  
     )
@@ -172,7 +169,7 @@ fetchData(dataWide).then(async (data) => {
       vl.x().fieldO('Year'),
       vl.y().fieldN('Platform'),
       vl.color().fieldQ('NA_Sales').aggregate('sum')
-        .legend({ title: 'Regional Sales (millions)', orient: 'top' }),
+        .legend({ title: 'Regional Sales (millions of units)', orient: 'top' }),
       vl.tooltip([
           { field: 'Year', 
             type: 'ordinal', 
@@ -183,12 +180,12 @@ fetchData(dataWide).then(async (data) => {
           { field: 'NA_Sales', 
             type: 'quantitative', 
             aggregate: 'sum', 
-            title: 'NA Sales (millions)',
-            format: '$.2f'
+            title: 'NA Sales (millions of units)',
+
           },
         ])  
     )
-    .title('Regional Sales: North America (millions)')
+    .title('Regional Sales: North America (millions of units)')
     .height(400)
     .width("container"),
 
@@ -202,7 +199,7 @@ fetchData(dataWide).then(async (data) => {
       vl.x().fieldO('Year'),
       vl.y().fieldN('Platform'),
       vl.color().fieldQ('JP_Sales').aggregate('sum')
-        .legend({ title: 'Regional Sales (millions)', orient: 'top' }),
+        .legend({ title: 'Regional Sales (millions of units)', orient: 'top' }),
       vl.tooltip([
           { field: 'Year', 
             type: 'ordinal', 
@@ -213,12 +210,12 @@ fetchData(dataWide).then(async (data) => {
           { field: 'JP_Sales', 
             type: 'quantitative', 
             aggregate: 'sum', 
-            title: 'JP Sales (millions)',
-            format: '$.2f'
+            title: 'JP Sales (millions of units)',
+
           },
         ])  
     )
-    .title('Regional Sales: Japan (millions)')
+    .title('Regional Sales: Japan (millions of units)')
     .height(400)
     .width("container"),
 
@@ -232,7 +229,7 @@ fetchData(dataWide).then(async (data) => {
       vl.x().fieldO('Year'),
       vl.y().fieldN('Platform'),
       vl.color().fieldQ('EU_Sales').aggregate('sum')
-        .legend({ title: 'Regional Sales (millions)', orient: 'top' }),
+        .legend({ title: 'Regional Sales (millions of units)', orient: 'top' }),
       vl.tooltip([
           { field: 'Year', 
             type: 'ordinal', 
@@ -243,12 +240,12 @@ fetchData(dataWide).then(async (data) => {
           { field: 'EU_Sales', 
             type: 'quantitative', 
             aggregate: 'sum', 
-            title: 'EU Sales (millions)',
-            format: '$.2f'
+            title: 'EU Sales (millions of units)',
+
           },
         ])  
     )
-    .title('Regional Sales: Europe (millions)')
+    .title('Regional Sales: Europe (millions of units)')
     .height(400)
     .width("container")
   )
@@ -292,8 +289,8 @@ fetchData(dataLong).then(async (data) => {
           { field: 'sales_amount', 
             type: 'quantitative', 
             aggregate: 'sum', 
-            title: 'Sales amount (millions)',
-            format: '$.2f'
+            title: 'Sales amount (millions of units)',
+
           },
         ])  
     )
