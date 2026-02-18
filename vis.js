@@ -93,7 +93,38 @@ fetchData(dataWide).then(async (data) => {
     .height(400)
     .toSpec();
 
-
+  // ----------- SALES OVER TIME BY PLATFORM AND GENRE -----------
+  const SalesOverTimePlatformGenre = vl
+    .markBar()
+    .data(data)
+    .transform(
+      vl.filter('datum["Year"] > 1979 && datum["Year"] <= 2016 ')
+    )
+    .encode(
+    vl.y().fieldQ('Global_Sales').aggregate('sum')
+      .title('Global Sales (millions)'),
+    vl.x().fieldO('Year'),
+    vl.row().fieldN('Genre'),
+    vl.color().fieldN('Platform')
+      .legend({ symbolLimit: 100, columns: 7, orient: 'top' }),
+  
+    vl.tooltip([
+        { field: 'Platform', 
+          type: 'nominal', 
+        },
+        { field: 'Year', 
+          type: 'ordinal', 
+        },
+        { field: 'Global_Sales', 
+          type: 'quantitative', 
+          aggregate: "sum", 
+          title: 'Global Sales (millions)',
+        }
+      ])  
+    )
+    .width("container")
+    .height(400)
+    .toSpec();
 
   // ----------- REGIONAL SALES VS PLATFORM --------------
   const regionalSalesVPlatform = vl.vconcat(
@@ -190,9 +221,9 @@ fetchData(dataWide).then(async (data) => {
   .toSpec();
 
 
-  render("#view", globalSalesByGenrePlatform);
+  render("#view1", globalSalesByGenrePlatform);
   render("#view2", globalSalesByGenrePlatformV2);
-  
+  render("#view3", SalesOverTimePlatformGenre);
   render("#view5", regionalSalesVPlatform);
 });
 

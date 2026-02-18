@@ -198,6 +198,11 @@ a:hover {
     margin: 2rem 0rem;
 }
 
+.scrollable {
+    height: 40rem;
+    overflow: auto;
+}
+
 .block-link:hover {
     scale: 1.01;
     transition: all 0.3s ease-out;
@@ -228,7 +233,7 @@ a:hover {
     font-size: .8rem;
 }
 
-#view,
+#view1,
 #view2,
 #view3,
 #view4,
