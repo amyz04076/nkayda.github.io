@@ -299,7 +299,146 @@ fetchData(dataLong).then(async (data) => {
     .height(400)
     .toSpec();
 
+
+
+  // ----------- VISUAL STORY --------------
+
+  // ----------- JAPAN-BASED COMPANIES --------------
+  const JapanBasedPublisherGameSales = 
+  
+  vl.vconcat(
+
+    vl.markArea({ point: 'true', opacity: '1' })
+      .data(data)
+        .transform(
+          vl.filter('datum["year"] > 1989 && datum["year"] <= 2016 '),
+          vl.filter('datum["publisher"] == "Nintendo"'),
+          vl.filter('datum["sales_region"] == "jp_sales" || datum["sales_region"] == "na_sales"')
+        )
+      .encode(
+        vl.y().fieldQ('sales_amount').aggregate('sum')
+          .axis({ title: 'Nintendo Game Sales' }),
+        vl.x().fieldO('year')
+          .axis({ title: 'Year' }),
+        vl.color().fieldN('sales_region')
+          .legend({ title: 'Sales Region', orient: 'top' }),
+        vl.tooltip([
+            { field: 'year', 
+              type: 'ordinal', 
+              title: 'Year'
+            },
+            { field: 'sales_amount', 
+              type: 'quantitative', 
+              aggregate: 'sum', 
+              title: 'Region Sales (millions of units)'
+            },
+          ])  
+      )
+      .width("container")
+      .height(400),
+
+      vl.markArea({ point: 'true', opacity: '1' })
+      .data(data)
+        .transform(
+          vl.filter('datum["year"] > 1989 && datum["year"] <= 2016 '),
+          vl.filter('datum["publisher"] == "Sega"'),
+          vl.filter('datum["sales_region"] == "jp_sales" || datum["sales_region"] == "na_sales"')
+        )
+      .encode(
+        vl.y().fieldQ('sales_amount').aggregate('sum')
+          .axis({ title: 'Sega Game Sales' }),
+        vl.x().fieldO('year')
+          .axis({ title: 'Year' }),
+        vl.color().fieldN('sales_region')
+          .legend({ title: 'Sales Region' }),
+        vl.tooltip([
+            { field: 'year', 
+              type: 'ordinal', 
+              title: 'Year'
+            },
+            { field: 'sales_amount', 
+              type: 'quantitative', 
+              aggregate: 'sum', 
+              title: 'Region Sales (millions of units)'
+            },
+          ])  
+      )
+      .width("container")
+      .height(400)
+    )
+    .title({ text: "Sales of Games Created by Japan-based Publishers", anchor: "middle"})
+    .toSpec();
+
+
+
+    // ----------- AMERICA-BASED COMPANIES --------------
+  const NABasedPublisherGameSales = 
+  
+  vl.vconcat(
+    vl.markArea({ point: 'true', opacity: '1' })
+      .data(data)
+        .transform(
+          vl.filter('datum["year"] > 1989 && datum["year"] <= 2016 '),
+          vl.filter('datum["publisher"] == "Electronic Arts"'),
+          vl.filter('datum["sales_region"] == "jp_sales" || datum["sales_region"] == "na_sales"')
+        )
+      .encode(
+        vl.y().fieldQ('sales_amount').aggregate('sum')
+          .axis({ title: 'Electronic Arts Game Sales' }),
+        vl.x().fieldO('year')
+          .axis({ title: 'Year' }),
+        vl.color().fieldN('sales_region')
+          .legend({ title: 'Sales Region', orient: 'top' }),
+        vl.tooltip([
+            { field: 'year', 
+              type: 'ordinal', 
+              title: 'Year'
+            },
+            { field: 'sales_amount', 
+              type: 'quantitative', 
+              aggregate: 'sum', 
+              title: 'Region Sales (millions of units)'
+            },
+          ])  
+      )
+      .width("container")
+      .height(400),
+
+      vl.markArea({ point: 'true', opacity: '1' })
+      .data(data)
+        .transform(
+          vl.filter('datum["year"] > 1989 && datum["year"] <= 2016 '),
+          vl.filter('datum["publisher"] == "Activision"'),
+          vl.filter('datum["sales_region"] == "jp_sales" || datum["sales_region"] == "na_sales"')
+        )
+      .encode(
+        vl.y().fieldQ('sales_amount').aggregate('sum')
+          .axis({ title: 'Activision Game Sales' }),
+        vl.x().fieldO('year')
+          .axis({ title: 'Year' }),
+        vl.color().fieldN('sales_region')
+          .legend({ title: 'Sales Region' }),
+        vl.tooltip([
+            { field: 'year', 
+              type: 'ordinal', 
+              title: 'Year'
+            },
+            { field: 'sales_amount', 
+              type: 'quantitative', 
+              aggregate: 'sum', 
+              title: 'Region Sales (millions of units)'
+            },
+          ])  
+      )
+      .width("container")
+      .height(400)
+    )
+    .title({ text: "Sales of Games Created by America-based Publishers", anchor: "middle"})
+    .toSpec();
+
   render("#view6", PS2SalesPerRegion);
+  render("#view7", JapanBasedPublisherGameSales);
+  render("#view8", NABasedPublisherGameSales);
 });
 
 
