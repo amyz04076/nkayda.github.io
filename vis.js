@@ -378,7 +378,7 @@ fetchData(dataLong).then(async (data) => {
     vl.markArea({ point: 'true', opacity: '1' })
       .data(data)
         .transform(
-          vl.filter('datum["year"] > 1989 && datum["year"] <= 2016 '),
+          vl.filter('datum["year"] > 1993 && datum["year"] <= 2016 '),
           vl.filter('datum["publisher"] == "Electronic Arts"'),
           vl.filter('datum["sales_region"] == "jp_sales" || datum["sales_region"] == "na_sales"')
         )
@@ -407,7 +407,7 @@ fetchData(dataLong).then(async (data) => {
       vl.markArea({ point: 'true', opacity: '1' })
       .data(data)
         .transform(
-          vl.filter('datum["year"] > 1989 && datum["year"] <= 2016 '),
+          vl.filter('datum["year"] > 1993 && datum["year"] <= 2016 '),
           vl.filter('datum["publisher"] == "Activision"'),
           vl.filter('datum["sales_region"] == "jp_sales" || datum["sales_region"] == "na_sales"')
         )
