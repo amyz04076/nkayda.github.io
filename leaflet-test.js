@@ -69,5 +69,5 @@ var evergreen = [
     [49.285556, -122.791667],
 ]
 
-var skytrainRoute = L.polyline(latlngs, {color: 'brown'}).addTo(map);
-var evergreenRoute = L.polyline(evergreen, {color: 'brown'}).addTo(map);
+var skytrainRoute = L.polyline(latlngs, {color: 'blue'}).addTo(map);
+var evergreenRoute = L.polyline(evergreen, {color: 'blue'}).addTo(map);
