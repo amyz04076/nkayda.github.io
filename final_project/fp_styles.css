@@ -250,19 +250,32 @@ a:hover {
 }
 
 /* LEAFLET TEST */
-#map { height: 500px; width: 100%;}
+#map { 
+    width: 100vw; 
+    height: auto; 
+    aspect-ratio: 3/1; 
+}
 
 .map-container {
     background-color: #fff;
-    width: 100%;
-    border-radius: .25rem;
-    border: 2px solid #747474;
+    width: fit-content;
+    height: fit-content;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin: 1rem;
 }
 
 .leaflet-popup-content {
     color: black;
+}
+
+/* New */
+.map_years{
+    width: 80%;
+}
+
+#years_slider{
+    min-width: 100%;
 }
