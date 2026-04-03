@@ -67,6 +67,8 @@ section {
     margin-right: auto;
     align-items: center;
     justify-content: center;
+
+    margin: 1rem auto 1rem auto;
 }
 
 footer {
