@@ -19,7 +19,7 @@ var markerData = [
     {name:'Gilmore', openDate: 2002, x: 49.26489, y: -123.01351, color: '#FFD200'},
     {name:'Rupert Station', openDate: 2002, x: 49.260833, y: -123.032778, color: '#FFD200'},
     {name:'Renfrew Station', openDate: 2002, x: 49.258889, y: -123.045278, color: '#FFD200'},
-    {nave:'Commercial–Broadway', openDate: 2002, x: 49.2625, y: -123.068889, color: '#FFD200'},
+    {name:'Commercial–Broadway', openDate: 2002, x: 49.2625, y: -123.068889, color: '#FFD200'},
 
     // opened in 2003
     {name:'Lake City Way', openDate: 2003, x: 49.25458, y: -122.93903, color: '#FFD200'},
@@ -63,12 +63,13 @@ var evergreen = [
     [49.285556, -122.791667],
 ]
 
-var skytrainRoute = L.polyline(latlngs, {color: '#FFD200', weight: 5}).addTo(map);
-var evergreenRoute = L.polyline(evergreen, {color: '#FFD200', weight: 5}).addTo(map);
-
 var yearSlider = document.getElementById("years_slider");
 var year = yearSlider.value;
 
+var skytrainRoute = L.polyline(latlngs, {color: '#FFD200', weight: 5}).addTo(map);
+var evergreenRoute = L.polyline(evergreen, {color: '#FFD200', weight: 5});
+
+if(year >= 2016) evergreenRoute.addTo(map);
 
 var markers = [];
 
@@ -85,6 +86,10 @@ for (let i = 0; i < markerData.length; i++) {
 // When slider changes, updates the displayed ones
 yearSlider.oninput = function() {
     year = this.value;
+    
+    if(year >= 2016) evergreenRoute.addTo(map);
+    else map.removeLayer(evergreenRoute);
+
     markers.forEach(marker => {
         map.removeLayer(marker);
     });
