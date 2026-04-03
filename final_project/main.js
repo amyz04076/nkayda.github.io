@@ -165,7 +165,7 @@ var canStations = [
 yearSlider.oninput = function() {
     year = this.value;
 
-    map.removeLayer(expoPolyLine_extension);
+    if(expoPolyLine_extension != undefined) map.removeLayer(expoPolyLine_extension);
     if(year < 2016 && year >= 2002) {
         expoPolyLine_extension = L.polyline(expoRoute_extension, {color: '#FFD200', weight: 5});
         expoPolyLine_extension.addTo(map);
