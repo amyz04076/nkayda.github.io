@@ -1,4 +1,8 @@
-var map = L.map('map').setView([49.23835, -123.031704], 11);
+var map = L.map('map', {
+    scrollWheelZoom: false,
+    center: [49.206944, -122.911111],
+    zoom: 11
+})
 
 // MAPTILER API FOR CUSTOM STYLING
 const mtLayer = L.maptiler.maptilerLayer({
