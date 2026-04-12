@@ -23,8 +23,9 @@ var routeLinesGroup = L.layerGroup().addTo(map);
 function addStationToMap(station){
     // console.log(station);
     var fill = 'white';
-    if(station.openDate == year) fill = '#7bca7f';
-    var marker = L.circleMarker([station.x, station.y], {radius: 10, color: station.color, fillColor: fill, fillOpacity: 1, weight: 5}).addTo(stationMarkers);
+    var size = 6;
+    if(station.openDate == year) {fill = '#7bca7f'; size = 10;}
+    var marker = L.circleMarker([station.x, station.y], {radius: size, color: station.color, fillColor: fill, fillOpacity: 1, weight: 5}).addTo(stationMarkers);
     marker.bindPopup(`${station.name} \n ${station.openDate}`);
     markers.push(marker);
 }
@@ -190,18 +191,25 @@ const waterfront = {name:'Waterfront Station', openDate: 1914, x: 49.285833, y: 
 
 function add_line_recursive(curStation, prevStation){
 
-    if(curStation.l_node != null && curStation.l_node.openDate <= year) add_line_recursive(curStation.l_node, curStation);
+    if(curStation.l_node != null && curStation.l_node.openDate <= year) {
+        add_line_recursive(curStation.l_node, curStation);
+    }
+    if(curStation.l_node != null && curStation.l_node.openDate > year) {
+        if(curStation.l_node.l_node != null) add_line_recursive(curStation.l_node.l_node, curStation);
+        if(curStation.l_node.r_node != null) add_line_recursive(curStation.l_node.r_node, curStation);
+    }
 
-    if(curStation.l_node != null && curStation.l_node.openDate > year) add_line_recursive(curStation.l_node, prevStation);
 
-
-    if(curStation.r_node != null && curStation.r_node.openDate <= year) add_line_recursive(curStation.r_node, curStation);
-    if(curStation.r_node != null && curStation.r_node.openDate > year) {
+    if(curStation.r_node != null && curStation.r_node.openDate <= year) {
         add_line_recursive(curStation.r_node, curStation);
+    }
+    if(curStation.r_node != null && curStation.r_node.openDate > year) {
+        if(curStation.r_node.l_node != null) add_line_recursive(curStation.r_node.l_node, curStation);
+        if(curStation.r_node.r_node != null) add_line_recursive(curStation.r_node.r_node, curStation);
     }
 
     // add polyline
-    if(prevStation != null && prevStation.openDate <= year){
+    if(prevStation != null && curStation.openDate <= year){
         line = L.polyline([[prevStation.x, prevStation.y],[curStation.x, curStation.y]], {color: curStation.color, weight: 5}).addTo(routeLinesGroup);
         routeLines.push(line);
     }
