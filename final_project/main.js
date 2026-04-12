@@ -1,4 +1,4 @@
-var map = L.map('map').setView([49.2561, -122.826], 12);
+var map = L.map('map').setView([49.23835, -123.031704], 11);
 
 // MAPTILER API FOR CUSTOM STYLING
 const mtLayer = L.maptiler.maptilerLayer({
@@ -12,6 +12,18 @@ var year = yearSlider.value;
 
 var markers = [];
 var stationMarkers = L.layerGroup().addTo(map);
+
+var routeLines = [];
+var routeLinesGroup = L.layerGroup().addTo(map);
+
+function addStationToMap(station){
+    // console.log(station);
+    var fill = 'white';
+    if(station.openDate == year) fill = '#7bca7f';
+    var marker = L.circleMarker([station.x, station.y], {radius: 10, color: station.color, fillColor: fill, fillOpacity: 1, weight: 5}).addTo(stationMarkers);
+    marker.bindPopup(`${station.name} \n ${station.openDate}`);
+    markers.push(marker);
+}
 
 /*  ///     EXPO LINE      ///*/
 var expoStations = [
@@ -45,11 +57,7 @@ var expoPolyLine = L.polyline(expoRoute, {color: '#005DAA', weight: 7}).addTo(ma
 
 for (let i = 0; i < expoStations.length; i++) {
     var currMarkerData = expoStations[i];
-    // if(currMarkerData.openDate <= year){
-    var marker = L.circleMarker([currMarkerData.x, currMarkerData.y], {radius: 10, color: currMarkerData.color, fillColor: 'white', fillOpacity: 1, weight: 5}).addTo(map);
-    marker.bindPopup(`${currMarkerData.name} \n ${currMarkerData.openDate}`);
-    markers.push(marker);
-    // }
+    addStationToMap(currMarkerData);
 }
 
 var expoStations_extension;
@@ -89,9 +97,7 @@ if(year >= 2016) {
 for (let i = 0; i < expoStations_extension.length; i++) {
     var currMarkerData = expoStations_extension[i];
     if(currMarkerData.openDate <= year){
-        var marker = L.circleMarker([currMarkerData.x, currMarkerData.y], {radius: 10, color: currMarkerData.color, fillColor: 'white', fillOpacity: 1, weight: 5}).addTo(stationMarkers);
-        marker.bindPopup(`${currMarkerData.name} \n ${currMarkerData.openDate}`);
-        markers.push(marker);
+        addStationToMap(currMarkerData);
     }
 }
 
@@ -110,6 +116,7 @@ var millStations = [
     {name:'Brentwood Town Centre', openDate: 2002, x: 49.26633, y: -123.00163, color: '#FFD200'},
     {name:'Holdom Station', openDate: 2002, x: 49.26469, y: -122.98222, color: '#FFD200'},
     {name:'Sperling-Burnaby Lake Station', openDate: 2002, x: 49.25914, y:-122.96391, color: '#FFD200'},
+    {name:'Lake City Way', openDate: 2003, x: 49.25458, y:-122.93903, color: '#FFD200'},
     {name:'Production Way-University Station', openDate: 2002, x: 49.25337, y:-122.91815, color: '#FFD200'},
     {name:'Lougheed Town Centre Station',openDate: 2002, x: 49.24846, y:-122.89702, color: '#FFD200'},
 
@@ -148,16 +155,61 @@ if(year >= 2016) {
 for (let i = 0; i < millStations.length; i++) {
     var currMarkerData = millStations[i];
     if(currMarkerData.openDate <= year){
-        var marker = L.circleMarker([currMarkerData.x, currMarkerData.y], {radius: 10, color: currMarkerData.color, fillColor: 'white', fillOpacity: 1, weight: 5}).addTo(stationMarkers);
-        marker.bindPopup(`${currMarkerData.name} \n ${currMarkerData.openDate}`);
-        markers.push(marker);
+        addStationToMap(currMarkerData);
     }
 }
 
 /*  ///     CANADA LINE      ///*/
-var canStations = [
-    {}
-]
+
+const YVR = {name:'YVR-Airport Station', openDate: 2009, x: 49.193056, y: -123.158056, color: '#009AC8', l_node: null, r_node: null};
+const Sea_Island = {name:'Sea Island Center', openDate: 2009, x: 49.193056, y: -123.158056, color: '#009AC8', l_node: YVR, r_node: null};
+const Templeton = {name:'Templeton', openDate: 2009, x: 49.196667, y: -123.146389, color: '#009AC8', l_node: Sea_Island, r_node: null};
+
+const Richmond = {name:'Richmond-Brighouse', openDate: 2009, x: 49.168056, y: -123.136389, color: '#009AC8', l_node: null, r_node: null};
+const Lansdown = {name:'Lansdown', openDate: 2009, x: 49.174722, y: -123.136389, color: '#009AC8', l_node: Richmond, r_node: null};
+const Aberdeen = {name:'Aberdeen', openDate: 2009, x: 49.183889, y: -123.136389, color: '#009AC8', l_node: Lansdown, r_node: null};
+const Capstan = {name:'Capstan', openDate: 2024, x: 49.189254, y: -123.131677, color: '#009AC8', l_node: Aberdeen, r_node: null};
+
+const Bridgeport = {name:'Bridgeport', openDate: 2009, x: 49.195556, y: -123.126111, color: '#009AC8', l_node: Templeton, r_node: Capstan};
+const MarineDrive = {name:'Marine Drive', openDate: 2009, x: 49.209722, y: -123.116944, color: '#009AC8', l_node: Bridgeport, r_node: null};
+const Langara = {name:'Langara-49th Avenue', openDate: 2009, x: 49.226389, y: -123.116111, color: '#009AC8', l_node: MarineDrive, r_node: null};
+const Oakridge = {name:'Oakridge-41st Avenue', openDate: 2009, x: 49.233056, y: -123.116667, color: '#009AC8', l_node: Langara, r_node: null};
+const KingEdward = {name:'King Edward Station', openDate: 2009, x: 49.249167, y: -123.115833, color: '#009AC8', l_node: Oakridge, r_node: null};
+const Broadway = {name:'Broadway-City Hall', openDate: 2009, x: 49.262778, y: -123.114444, color: '#009AC8', l_node: KingEdward, r_node: null};
+const Olympic = {name:'Olympic Village', openDate: 2009, x: 49.266389, y: -123.115833, color: '#009AC8', l_node: Broadway, r_node: null};
+const Yaletown = {name:'Yaletown-Roundhouse', openDate: 2009, x: 49.27455, y: -123.1219, color: '#009AC8', l_node: Olympic, r_node: null};
+const VCC = {name:'Vancouver City Center', openDate: 2009, x: 49.28202, y: -123.11875, color: '#009AC8', l_node: Yaletown, r_node: null};
+
+
+const waterfront = {name:'Waterfront Station', openDate: 1914, x: 49.285833, y: -123.111667, color: '#005DAA', l_node: VCC, r_node: null};
+
+
+function add_line_recursive(curStation, prevStation){
+
+    if(curStation.l_node != null && curStation.l_node.openDate <= year) add_line_recursive(curStation.l_node, curStation);
+
+    if(curStation.l_node != null && curStation.l_node.openDate > year) add_line_recursive(curStation.l_node, prevStation);
+
+
+    if(curStation.r_node != null && curStation.r_node.openDate <= year) add_line_recursive(curStation.r_node, curStation);
+    if(curStation.r_node != null && curStation.r_node.openDate > year) {
+        add_line_recursive(curStation.r_node, curStation);
+    }
+
+    // add polyline
+    if(prevStation != null && prevStation.openDate <= year){
+        line = L.polyline([[prevStation.x, prevStation.y],[curStation.x, curStation.y]], {color: curStation.color, weight: 5}).addTo(routeLinesGroup);
+        routeLines.push(line);
+    }
+    
+    if(curStation.openDate <= year){
+        addStationToMap(curStation);
+    }
+
+    return;
+}
+
+if(year >= 2009) add_line_recursive(waterfront, null);
 
 
 
@@ -206,20 +258,28 @@ yearSlider.oninput = function() {
         stationMarkers.removeLayer(marker);
     });
 
+    expoStations.forEach((station) => {
+        if(station.openDate <= year){
+            addStationToMap(station);
+        }
+    });
+
     for (let i = 0; i < expoStations_extension.length; i++) {
         var currMarkerData = expoStations_extension[i];
         if(currMarkerData.openDate <= year){
-            var marker = L.circleMarker([currMarkerData.x, currMarkerData.y], {radius: 10, color: currMarkerData.color, fillColor: 'white', fillOpacity: 1, weight: 5}).addTo(stationMarkers);
-            marker.bindPopup(`${currMarkerData.name} \n ${currMarkerData.openDate}`);
-            markers.push(marker);
+            addStationToMap(currMarkerData);
         }
     }
     for (let i = 0; i < millStations.length; i++) {
         var currMarkerData = millStations[i];
         if(currMarkerData.openDate <= year){
-            var marker = L.circleMarker([currMarkerData.x, currMarkerData.y], {radius: 10, color: currMarkerData.color, fillColor: 'white', fillOpacity: 1, weight: 5}).addTo(stationMarkers);
-            marker.bindPopup(`${currMarkerData.name} \n ${currMarkerData.openDate}`);
-            markers.push(marker);
+            addStationToMap(currMarkerData);
         }
     }
+
+    routeLines.forEach((line) => {
+        routeLinesGroup.removeLayer(line);
+    })
+
+    add_line_recursive(waterfront);
 }
