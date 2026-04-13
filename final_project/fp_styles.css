@@ -343,3 +343,15 @@ a {
     opacity: 50%;
     text-align: center;
 }
+
+/* Vegalite tooltip */
+.vega-tooltip {
+  font-family: "Fira Sans", sans-serif;
+  font-size: 12px;
+  background: rgb(255, 255, 255);
+  color: #00355F;
+  border: 2px solid #FFD200;
+  border-radius: 8px;
+  padding: 10px 12px;
+ 
+}
